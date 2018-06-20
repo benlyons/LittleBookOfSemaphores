@@ -7,7 +7,7 @@ namespace BasicSyncPatterns
     {
         static void Main(string[] args)
         {
-            var test = new _3_1_Signaling();
+            var test = new Sec01_Signaling();
 
             Thread threadA = new Thread(() => test.ThreadA());
             Thread threadB = new Thread(() => test.ThreadB());

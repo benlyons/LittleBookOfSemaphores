@@ -3,11 +3,11 @@ using System.Threading;
 
 namespace BasicSyncPatterns
 {
-    public class _3_1_Signaling
+    public class Sec01_Signaling
     {
         private Semaphore semaphore;
         
-        public _3_1_Signaling()
+        public Sec01_Signaling()
         {
             this.semaphore = new Semaphore(0, 1);
         }

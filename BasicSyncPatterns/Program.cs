@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace BasicSyncPatterns
+namespace CypressTree.BasicSyncPatterns
 {
     class Program
     {

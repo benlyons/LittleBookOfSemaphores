@@ -1,6 +1,5 @@
 ﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
-using System;
 using System.Threading;
 
 namespace CypressTree.BasicSyncPatternsTest
@@ -8,7 +7,7 @@ namespace CypressTree.BasicSyncPatternsTest
     public class TestSignaling
     {
         [Test]
-        public void Test()
+        public void Test_Statement_A_Runs_Before_Statement_B_When_Thread_A_Starts_First()
         {
             var signaling = new Sec01_Signaling();
 
@@ -18,27 +17,37 @@ namespace CypressTree.BasicSyncPatternsTest
             threadA.Start();
             threadB.Start();
 
-            threadA.Join();
-            threadB.Join();
+            WaitForThreadsToFinish(threadA, threadB);
 
-            CheckThreadAStatementRunsBeforeThreadBStatement(signaling);
+            Check_Statement_A_Runs_Before_Statement_B(signaling);
+        }
 
-            Console.WriteLine("Swapping threads...");
+        [Test]
+        public void Test_Statement_A_Runs_Before_Statement_B_When_Thread_B_Starts_First()
+        {
+            var signaling = new Sec01_Signaling();
 
-            threadA = new Thread(() => signaling.ThreadA());
-            threadB = new Thread(() => signaling.ThreadB());
+            Thread threadA = new Thread(() => signaling.ThreadA());
+            Thread threadB = new Thread(() => signaling.ThreadB());
 
             threadB.Start();
             threadA.Start();
 
-            threadA.Join();
-            threadB.Join();
+            WaitForThreadsToFinish(threadA, threadB);
+
+            Check_Statement_A_Runs_Before_Statement_B(signaling);
         }
 
-        private static void CheckThreadAStatementRunsBeforeThreadBStatement(Sec01_Signaling signaling)
+        private static void Check_Statement_A_Runs_Before_Statement_B(Sec01_Signaling signaling)
         {
             Assert.That(signaling.Events[0], Is.EqualTo(Sec01_Signaling.Event.ThreadA));
             Assert.That(signaling.Events[1], Is.EqualTo(Sec01_Signaling.Event.ThreadB));
+        }
+
+        private static void WaitForThreadsToFinish(Thread threadA, Thread threadB)
+        {
+            threadA.Join();
+            threadB.Join();
         }
     }
 }

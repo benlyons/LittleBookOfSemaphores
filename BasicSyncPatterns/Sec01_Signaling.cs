@@ -5,13 +5,13 @@ namespace CypressTree.BasicSyncPatterns
 {
     public class Sec01_Signaling
     {
-        public enum Event
+        public enum StatementExecuted
         {
-            ThreadA,
-            ThreadB
+            OnThreadA,
+            OnThreadB
         }
 
-        public IList<Event> Events = new List<Event>();
+        public IList<StatementExecuted> StatementsExecuted = new List<StatementExecuted>();
 
         private Semaphore semaphore;
         
@@ -22,14 +22,14 @@ namespace CypressTree.BasicSyncPatterns
 
         public void ThreadA()
         {
-            this.Events.Add(Event.ThreadA);
+            this.StatementsExecuted.Add(StatementExecuted.OnThreadA);
             this.semaphore.Release();
         }
 
         public void ThreadB()
         {
             this.semaphore.WaitOne();
-            this.Events.Add(Event.ThreadB);
+            this.StatementsExecuted.Add(StatementExecuted.OnThreadB);
         }
     }
 }

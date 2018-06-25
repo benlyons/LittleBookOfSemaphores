@@ -40,8 +40,8 @@ namespace CypressTree.BasicSyncPatternsTest
 
         private static void Check_Statement_A_Runs_Before_Statement_B(Sec01_Signaling signaling)
         {
-            Assert.That(signaling.Events[0], Is.EqualTo(Sec01_Signaling.Event.ThreadA));
-            Assert.That(signaling.Events[1], Is.EqualTo(Sec01_Signaling.Event.ThreadB));
+            Assert.That(signaling.StatementsExecuted[0], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadA));
+            Assert.That(signaling.StatementsExecuted[1], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadB));
         }
 
         private static void WaitForThreadsToFinish(Thread threadA, Thread threadB)

@@ -6,48 +6,53 @@ namespace CypressTree.BasicSyncPatternsTest
 {
     public class TestSignaling
     {
+        private Sec01_Signaling signaling;
+
+        private Thread threadA;
+
+        private Thread threadB;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.signaling = new Sec01_Signaling();
+
+            this.threadA = new Thread(() => this.signaling.ThreadA());
+            this.threadB = new Thread(() => this.signaling.ThreadB());
+        }
+
         [Test]
         public void Test_Statement_A_Runs_Before_Statement_B_When_Thread_A_Starts_First()
         {
-            var signaling = new Sec01_Signaling();
+            this.threadA.Start();
+            this.threadB.Start();
 
-            Thread threadA = new Thread(() => signaling.ThreadA());
-            Thread threadB = new Thread(() => signaling.ThreadB());
+            this.WaitForThreadsToFinish();
 
-            threadA.Start();
-            threadB.Start();
-
-            WaitForThreadsToFinish(threadA, threadB);
-
-            Check_Statement_A_Runs_Before_Statement_B(signaling);
+            this.Check_Statement_A_Runs_Before_Statement_B();
         }
 
         [Test]
         public void Test_Statement_A_Runs_Before_Statement_B_When_Thread_B_Starts_First()
         {
-            var signaling = new Sec01_Signaling();
+            this.threadB.Start();
+            this.threadA.Start();
 
-            Thread threadA = new Thread(() => signaling.ThreadA());
-            Thread threadB = new Thread(() => signaling.ThreadB());
+            this.WaitForThreadsToFinish();
 
-            threadB.Start();
-            threadA.Start();
-
-            WaitForThreadsToFinish(threadA, threadB);
-
-            Check_Statement_A_Runs_Before_Statement_B(signaling);
+            this.Check_Statement_A_Runs_Before_Statement_B();
         }
 
-        private static void Check_Statement_A_Runs_Before_Statement_B(Sec01_Signaling signaling)
+        private void Check_Statement_A_Runs_Before_Statement_B()
         {
-            Assert.That(signaling.StatementsExecuted[0], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadA));
-            Assert.That(signaling.StatementsExecuted[1], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadB));
+            Assert.That(this.signaling.StatementsExecuted[0], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadA));
+            Assert.That(this.signaling.StatementsExecuted[1], Is.EqualTo(Sec01_Signaling.StatementExecuted.OnThreadB));
         }
 
-        private static void WaitForThreadsToFinish(Thread threadA, Thread threadB)
+        private void WaitForThreadsToFinish()
         {
-            threadA.Join();
-            threadB.Join();
+            this.threadA.Join();
+            this.threadB.Join();
         }
     }
 }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestMutex.cs" />
     <Compile Include="TestRendezvous.cs" />
     <Compile Include="TestSignaling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

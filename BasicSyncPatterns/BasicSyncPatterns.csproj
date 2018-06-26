@@ -63,6 +63,7 @@
     <Compile Include="Sec01_Signaling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sec03_Rendezvous.cs" />
+    <Compile Include="Sec04_Mutex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

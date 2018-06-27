@@ -13,11 +13,21 @@ namespace BasicSyncPatterns
 
         public int Count { get; private set; } = 0;
 
+        // These methods are somewhat artificial. I found it almost impossible to get the code to go wrong just with
+        // this.Count++; even without a mutex. Therefore, I've broken the increment down into steps and introduced a delay.
+        // Now, it always goes wrong without the mutex. This isn't what I was aiming for either - I was hoping for something
+        // unpredictable - but at least it makes the mutex necessary.
         public void ThreadA()
         {
             this.Mutex.WaitOne();
 
-            this.Count = this.Count + 1;
+            int currentCount = this.Count;
+
+            int incrementedCount = currentCount + 1;
+
+            Thread.Sleep(1);
+
+            this.Count = incrementedCount;
 
             this.Mutex.Release();
         }
@@ -26,7 +36,13 @@ namespace BasicSyncPatterns
         {
             this.Mutex.WaitOne();
 
-            this.Count = this.Count + 1;
+            int currentCount = this.Count;
+
+            int incrementedCount = currentCount + 1;
+
+            Thread.Sleep(1);
+
+            this.Count = incrementedCount;
 
             this.Mutex.Release();
         }

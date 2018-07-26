@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test05_Multiplex.cs" />
+    <Compile Include="Test06_Barrier.cs" />
     <Compile Include="TestMutex.cs" />
     <Compile Include="TestRendezvous.cs" />
     <Compile Include="TestSignaling.cs" />

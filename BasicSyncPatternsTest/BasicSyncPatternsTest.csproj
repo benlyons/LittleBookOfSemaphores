@@ -53,6 +53,7 @@
     <Compile Include="Test03_Rendezvous.cs" />
     <Compile Include="Test01_Signaling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test07_ReusableBarrier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BasicSyncPatterns\BasicSyncPatterns.csproj">

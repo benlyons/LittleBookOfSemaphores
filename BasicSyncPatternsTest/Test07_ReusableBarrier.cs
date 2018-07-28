@@ -1,11 +1,7 @@
 ﻿using BasicSyncPatterns;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using static BasicSyncPatterns.Sec07_ReusableBarrier;
 
 namespace BasicSyncPatternsTest
@@ -23,8 +19,8 @@ namespace BasicSyncPatternsTest
 
             for (int i = 0; i < loopTimes; i++)
             {
-                Assert.That(Sec07_ReusableBarrier.StatementsExecuted[2 * i], Is.EqualTo(StatementExecuted.Rendezvous));
-                Assert.That(Sec07_ReusableBarrier.StatementsExecuted[2 * i + 1], Is.EqualTo(StatementExecuted.CriticalPoint));
+                Assert.That(test.StatementsExecuted[2 * i], Is.EqualTo(StatementExecuted.Rendezvous));
+                Assert.That(test.StatementsExecuted[2 * i + 1], Is.EqualTo(StatementExecuted.CriticalPoint));
             }
         }
 
@@ -54,7 +50,7 @@ namespace BasicSyncPatternsTest
                 StatementExecuted.CriticalPoint,
             };
 
-            CollectionAssert.AreEqual(expectedStatementsExecuted, Sec07_ReusableBarrier.StatementsExecuted);
+            CollectionAssert.AreEqual(expectedStatementsExecuted, test.StatementsExecuted);
         }
     }
 }

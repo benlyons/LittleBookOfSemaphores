@@ -20,7 +20,7 @@ namespace BasicSyncPatterns
             this.barrier = new Semaphore(0, 1);
         }
 
-        public static IList<StatementExecuted> StatementsExecuted = new List<StatementExecuted>();
+        public IList<StatementExecuted> StatementsExecuted = new List<StatementExecuted>();
         private int n;
         private readonly int threadCount;
         private readonly Semaphore mutex;

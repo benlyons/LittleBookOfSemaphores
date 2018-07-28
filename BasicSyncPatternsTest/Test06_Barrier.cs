@@ -15,8 +15,8 @@ namespace BasicSyncPatternsTest
 
             test.RunCode();
 
-            Assert.That(Sec06_Barrier.StatementsExecuted[0], Is.EqualTo(StatementExecuted.Rendezvous));
-            Assert.That(Sec06_Barrier.StatementsExecuted[1], Is.EqualTo(StatementExecuted.CriticalPoint));
+            Assert.That(test.StatementsExecuted[0], Is.EqualTo(StatementExecuted.Rendezvous));
+            Assert.That(test.StatementsExecuted[1], Is.EqualTo(StatementExecuted.CriticalPoint));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace BasicSyncPatternsTest
                 Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount).Concat(
                 Enumerable.Repeat(StatementExecuted.CriticalPoint, threadCount));
 
-            CollectionAssert.AreEqual(expectedStatementsExecuted, Sec06_Barrier.StatementsExecuted);
+            CollectionAssert.AreEqual(expectedStatementsExecuted, test.StatementsExecuted);
         }
     }
 }

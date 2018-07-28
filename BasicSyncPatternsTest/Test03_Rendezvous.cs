@@ -5,7 +5,7 @@ using static BasicSyncPatterns.Sec03_Rendezvous;
 
 namespace BasicSyncPatternsTest
 {
-    public class TestRendezvous
+    public class Test03_Rendezvous
     {
         [Test]
         public void Test_Statement_Order()

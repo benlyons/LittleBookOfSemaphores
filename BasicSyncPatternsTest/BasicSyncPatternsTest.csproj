@@ -49,9 +49,9 @@
   <ItemGroup>
     <Compile Include="Test05_Multiplex.cs" />
     <Compile Include="Test06_Barrier.cs" />
-    <Compile Include="TestMutex.cs" />
-    <Compile Include="TestRendezvous.cs" />
-    <Compile Include="TestSignaling.cs" />
+    <Compile Include="Test04_Mutex.cs" />
+    <Compile Include="Test03_Rendezvous.cs" />
+    <Compile Include="Test01_Signaling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

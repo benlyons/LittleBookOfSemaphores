@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace BasicSyncPatternsTest
 {
-    public class TestMutex
+    public class Test04_Mutex
     {
         [Test]
         public void Test_TwoThreadsIncrementCount_CountIsIncrementedCorrectly()

@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace CypressTree.BasicSyncPatternsTest
 {
-    public class TestSignaling
+    public class Test01_Signaling
     {
         private Sec01_Signaling signaling;
 

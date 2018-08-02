@@ -1,6 +1,7 @@
 ﻿using BasicSyncPatterns;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using static BasicSyncPatterns.Sec07_ReusableBarrier;
 
@@ -11,7 +12,7 @@ namespace BasicSyncPatternsTest
         [Test]
         public void TestSingleThreaded()
         {
-            var test = new Sec07_ReusableBarrier();
+            var test = new Sec07_ReusableBarrier(1);
 
             int loopTimes = 5;
 
@@ -27,28 +28,32 @@ namespace BasicSyncPatternsTest
         [Test]
         public void TestMultiThreaded()
         {
-            var test = new Sec07_ReusableBarrier();
+            int loopTimes = 3;
+            int threadCount = 20;
 
-            int loopTimes = 2;
-            int threads = 2;
+            var test = new Sec07_ReusableBarrier(threadCount);
 
-            for (int i = 0; i < threads; i++)
+            var threads = new List<Thread>();
+
+            for (int i = 0; i < threadCount; i++)
             {
                 var thread = new Thread(() => test.RunCode(loopTimes));
+                threads.Add(thread);
                 thread.Start();
             }
 
-            IEnumerable<StatementExecuted> expectedStatementsExecuted = new StatementExecuted[]
+            var expectedStatementsExecuted =
+                Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount).Concat(
+                Enumerable.Repeat(StatementExecuted.CriticalPoint, threadCount)).Concat(
+                Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount)).Concat(
+                Enumerable.Repeat(StatementExecuted.CriticalPoint, threadCount)).Concat(
+                Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount)).Concat(
+                Enumerable.Repeat(StatementExecuted.CriticalPoint, threadCount));
+
+            foreach(var thread in threads)
             {
-                StatementExecuted.Rendezvous,
-                StatementExecuted.Rendezvous,
-                StatementExecuted.CriticalPoint,
-                StatementExecuted.CriticalPoint,
-                StatementExecuted.Rendezvous,
-                StatementExecuted.Rendezvous,
-                StatementExecuted.CriticalPoint,
-                StatementExecuted.CriticalPoint,
-            };
+                thread.Join();
+            }
 
             CollectionAssert.AreEqual(expectedStatementsExecuted, test.StatementsExecuted);
         }

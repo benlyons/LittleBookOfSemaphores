@@ -11,23 +11,30 @@ namespace BasicSyncPatterns
             CriticalPoint
         }
 
-        private readonly int threadCount;
-        private readonly Semaphore mutex;
-        private readonly Semaphore semaphore1;
-        private readonly Semaphore semaphore2;
-        private int n;
+        private class TwoPhaseBarrier
+        {
+            public int threadCount;
+            public Semaphore mutex;
+            public Semaphore semaphore1;
+            public Semaphore semaphore2;
+            public int n;
+        }
 
         public Sec07_ReusableBarrier(int threadCount)
         {
-            this.n = 0;
-            this.threadCount = threadCount;
+            this.barrier = new TwoPhaseBarrier();
 
-            this.mutex = new Semaphore(1, 1);
-            this.semaphore1 = new Semaphore(0, 1);
-            this.semaphore2 = new Semaphore(1, 1);
+            this.barrier.n = 0;
+            this.barrier.threadCount = threadCount;
+
+            this.barrier.mutex = new Semaphore(1, 1);
+            this.barrier.semaphore1 = new Semaphore(0, 1);
+            this.barrier.semaphore2 = new Semaphore(1, 1);
         }
 
         public IList<StatementExecuted> StatementsExecuted = new List<StatementExecuted>();
+
+        private TwoPhaseBarrier barrier;
 
         public void RunCode(int loopCount)
         {
@@ -45,34 +52,34 @@ namespace BasicSyncPatterns
 
         private void Phase1()
         {
-            this.mutex.WaitOne();
-            this.n++;
+            this.barrier.mutex.WaitOne();
+            this.barrier.n++;
 
-            if (this.n == this.threadCount)
+            if (this.barrier.n == this.barrier.threadCount)
             {
-                this.semaphore2.WaitOne();
-                this.semaphore1.Release();
+                this.barrier.semaphore2.WaitOne();
+                this.barrier.semaphore1.Release();
             }
-            this.mutex.Release();
+            this.barrier.mutex.Release();
 
-            this.semaphore1.WaitOne();
-            this.semaphore1.Release();
+            this.barrier.semaphore1.WaitOne();
+            this.barrier.semaphore1.Release();
         }
 
         private void Phase2()
         {
-            this.mutex.WaitOne();
-            this.n--;
+            this.barrier.mutex.WaitOne();
+            this.barrier.n--;
 
-            if (this.n == 0)
+            if (this.barrier.n == 0)
             {
-                this.semaphore1.WaitOne();
-                this.semaphore2.Release();
+                this.barrier.semaphore1.WaitOne();
+                this.barrier.semaphore2.Release();
             }
-            this.mutex.Release();
+            this.barrier.mutex.Release();
 
-            this.semaphore2.WaitOne();
-            this.semaphore2.Release();
+            this.barrier.semaphore2.WaitOne();
+            this.barrier.semaphore2.Release();
         }
     }
 }

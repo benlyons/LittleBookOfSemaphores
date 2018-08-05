@@ -35,34 +35,44 @@ namespace BasicSyncPatterns
             {
                 StatementsExecuted.Add(StatementExecuted.Rendezvous);
 
-                this.mutex.WaitOne();
-                this.n++;
-                
-                if (this.n == this.threadCount)
-                {
-                    this.semaphore2.WaitOne();
-                    this.semaphore1.Release();
-                }
-                this.mutex.Release();
-
-                this.semaphore1.WaitOne();
-                this.semaphore1.Release();
+                Phase1();
 
                 StatementsExecuted.Add(StatementExecuted.CriticalPoint);
 
-                this.mutex.WaitOne();
-                this.n--;
+                Phase2();
+            }
+        }
 
-                if (this.n == 0)
-                {
-                    this.semaphore1.WaitOne();
-                    this.semaphore2.Release();
-                }
-                this.mutex.Release();
+        private void Phase1()
+        {
+            this.mutex.WaitOne();
+            this.n++;
 
+            if (this.n == this.threadCount)
+            {
                 this.semaphore2.WaitOne();
+                this.semaphore1.Release();
+            }
+            this.mutex.Release();
+
+            this.semaphore1.WaitOne();
+            this.semaphore1.Release();
+        }
+
+        private void Phase2()
+        {
+            this.mutex.WaitOne();
+            this.n--;
+
+            if (this.n == 0)
+            {
+                this.semaphore1.WaitOne();
                 this.semaphore2.Release();
             }
+            this.mutex.Release();
+
+            this.semaphore2.WaitOne();
+            this.semaphore2.Release();
         }
     }
 }

@@ -18,6 +18,38 @@ namespace BasicSyncPatterns
             public Semaphore semaphore1;
             public Semaphore semaphore2;
             public int n;
+
+            public void Phase1()
+            {
+                this.mutex.WaitOne();
+                this.n++;
+
+                if (this.n == this.threadCount)
+                {
+                    this.semaphore2.WaitOne();
+                    this.semaphore1.Release();
+                }
+                this.mutex.Release();
+
+                this.semaphore1.WaitOne();
+                this.semaphore1.Release();
+            }
+
+            public void Phase2()
+            {
+                this.mutex.WaitOne();
+                this.n--;
+
+                if (this.n == 0)
+                {
+                    this.semaphore1.WaitOne();
+                    this.semaphore2.Release();
+                }
+                this.mutex.Release();
+
+                this.semaphore2.WaitOne();
+                this.semaphore2.Release();
+            }
         }
 
         public Sec07_ReusableBarrier(int threadCount)
@@ -42,44 +74,12 @@ namespace BasicSyncPatterns
             {
                 StatementsExecuted.Add(StatementExecuted.Rendezvous);
 
-                Phase1();
+                this.barrier.Phase1();
 
                 StatementsExecuted.Add(StatementExecuted.CriticalPoint);
 
-                Phase2();
+                this.barrier.Phase2();
             }
-        }
-
-        private void Phase1()
-        {
-            this.barrier.mutex.WaitOne();
-            this.barrier.n++;
-
-            if (this.barrier.n == this.barrier.threadCount)
-            {
-                this.barrier.semaphore2.WaitOne();
-                this.barrier.semaphore1.Release();
-            }
-            this.barrier.mutex.Release();
-
-            this.barrier.semaphore1.WaitOne();
-            this.barrier.semaphore1.Release();
-        }
-
-        private void Phase2()
-        {
-            this.barrier.mutex.WaitOne();
-            this.barrier.n--;
-
-            if (this.barrier.n == 0)
-            {
-                this.barrier.semaphore1.WaitOne();
-                this.barrier.semaphore2.Release();
-            }
-            this.barrier.mutex.Release();
-
-            this.barrier.semaphore2.WaitOne();
-            this.barrier.semaphore2.Release();
         }
     }
 }

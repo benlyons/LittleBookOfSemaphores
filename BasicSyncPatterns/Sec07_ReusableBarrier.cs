@@ -13,11 +13,21 @@ namespace BasicSyncPatterns
 
         private class TwoPhaseBarrier
         {
-            public int threadCount;
-            public Semaphore mutex;
-            public Semaphore semaphore1;
-            public Semaphore semaphore2;
-            public int n;
+            private readonly int threadCount;
+            private readonly Semaphore mutex;
+            private readonly Semaphore semaphore1;
+            private readonly Semaphore semaphore2;
+
+            private int n;
+
+            public TwoPhaseBarrier(int threadCount)
+            {
+                this.threadCount = threadCount;
+                this.n = 0;
+                this.mutex = new Semaphore(1, 1);
+                this.semaphore1 = new Semaphore(0, 1);
+                this.semaphore2 = new Semaphore(1, 1);
+            }
 
             public void Phase1()
             {
@@ -54,14 +64,7 @@ namespace BasicSyncPatterns
 
         public Sec07_ReusableBarrier(int threadCount)
         {
-            this.barrier = new TwoPhaseBarrier();
-
-            this.barrier.n = 0;
-            this.barrier.threadCount = threadCount;
-
-            this.barrier.mutex = new Semaphore(1, 1);
-            this.barrier.semaphore1 = new Semaphore(0, 1);
-            this.barrier.semaphore2 = new Semaphore(1, 1);
+            this.barrier = new TwoPhaseBarrier(threadCount);
         }
 
         public IList<StatementExecuted> StatementsExecuted = new List<StatementExecuted>();

@@ -1,5 +1,6 @@
 ﻿using BasicSyncPatterns;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using static BasicSyncPatterns.Sec06_Barrier;
@@ -26,11 +27,16 @@ namespace BasicSyncPatternsTest
 
             var test = new Sec06_Barrier(threadCount);
 
+            var threads = new List<Thread>();
+
             for (int i = 0; i < threadCount; i++)
             {
                 Thread thread = new Thread(() => test.RunCode());
+                threads.Add(thread);
                 thread.Start();
             }
+
+            threads.ForEach(t => t.Join());
 
             var expectedStatementsExecuted =
                 Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount).Concat(

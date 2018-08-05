@@ -50,10 +50,7 @@ namespace BasicSyncPatternsTest
                 Enumerable.Repeat(StatementExecuted.Rendezvous, threadCount)).Concat(
                 Enumerable.Repeat(StatementExecuted.CriticalPoint, threadCount));
 
-            foreach(var thread in threads)
-            {
-                thread.Join();
-            }
+            threads.ForEach(t => t.Join());
 
             CollectionAssert.AreEqual(expectedStatementsExecuted, test.StatementsExecuted);
         }

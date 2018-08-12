@@ -30,8 +30,10 @@ namespace BasicSyncPatternsTest
         {
             get
             {
-                yield return new TestCaseData(new[] { Add.Follower }, 0);
-                yield return new TestCaseData(new[] { Add.Follower }, 0);
+                yield return new TestCaseData(new[] { Add.Leader }, 0);
+                yield return new TestCaseData(new[] { Add.Leader, Add.Follower }, 1);
+                yield return new TestCaseData(new[] { Add.Leader, Add.Leader, Add.Follower }, 1);
+                yield return new TestCaseData(new[] { Add.Follower, Add.Leader, Add.Leader }, 1);
             }
         }
 
@@ -48,83 +50,18 @@ namespace BasicSyncPatternsTest
                 {
                     this.CreateAndStartFollowerThread();
                 }
-
-                Assert.That(this.classUnderTest.Dancers.Count, Is.EqualTo(howManyPairs * 2));
-
-                for (int i = 0; i < howManyPairs; i++)
-                {
-                    var pair = this.classUnderTest.Dancers.Skip(2 * i).Take(2);
-
-                    Assert.That(pair, Is.EquivalentTo(new[] { DancerType.Leader, DancerType.Follower }));
-                }
             }
-        }
 
-        [Test]
-        public void When1Leader0Followers_NoOneShouldDance()
-        {
-            this.CreateAndStartLeaderThread();
+            this.JoinThreads();
 
-            JoinThreads();
+            Assert.That(this.classUnderTest.Dancers.Count, Is.EqualTo(howManyPairs * 2));
 
-            Assert.That(classUnderTest.Dancers, Is.Empty);
-        }
+            for (int i = 0; i < howManyPairs; i++)
+            {
+                var pair = this.classUnderTest.Dancers.Skip(2 * i).Take(2);
 
-        [Test]
-        public void When1Leader1Follower_BothShouldDance()
-        {
-            this.CreateAndStartLeaderThread();
-            this.CreateAndStartFollowerThread();
-
-            JoinThreads();
-
-            Assert.That(classUnderTest.Dancers, Is.EquivalentTo(new[] { DancerType.Follower, DancerType.Leader }));
-        }
-
-        [Test]
-        public void When0Leaders1Followers_NoOneShouldDance()
-        {
-            this.CreateAndStartFollowerThread();
-
-            JoinThreads();
-
-            Assert.That(classUnderTest.Dancers, Is.Empty);
-        }
-
-        [Test]
-        public void When1FollowerThen1Leader_BothShouldDance()
-        {
-            this.CreateAndStartFollowerThread();
-            this.CreateAndStartLeaderThread();
-
-            JoinThreads();
-
-            Assert.That(classUnderTest.Dancers, Is.EquivalentTo(new[] { DancerType.Follower, DancerType.Leader }));
-        }
-
-        [Test]
-        public void When2Leaders1Follower_Only1Leader1FollowerShouldDance()
-        {
-            this.CreateAndStartLeaderThread();
-            this.CreateAndStartLeaderThread();
-            this.CreateAndStartFollowerThread();
-
-            JoinThreads();
-
-            Assert.That(classUnderTest.Dancers, Is.EquivalentTo(new[] { DancerType.Follower, DancerType.Leader }));
-        }
-
-        [Test]
-        public void When1FollowerThen2Leaders_Only1Leader1FollowerShouldDance()
-        {
-            this.CreateAndStartFollowerThread();
-
-            this.CreateAndStartLeaderThread();
-            this.CreateAndStartLeaderThread();
-
-            JoinThreads();
-
-            Assert.That(classUnderTest.Dancers, Is.EquivalentTo(new[] { DancerType.Follower, DancerType.Leader }));
+                Assert.That(pair, Is.EquivalentTo(new[] { DancerType.Leader, DancerType.Follower }));
+            }
         }
 
         private void CreateAndStartLeaderThread()

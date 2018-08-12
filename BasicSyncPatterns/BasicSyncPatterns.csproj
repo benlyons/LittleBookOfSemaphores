@@ -67,6 +67,7 @@
     <Compile Include="Sec05_Multiplex.cs" />
     <Compile Include="Sec06_Barrier.cs" />
     <Compile Include="Sec07_ReusableBarrier.cs" />
+    <Compile Include="Sec08_Queue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

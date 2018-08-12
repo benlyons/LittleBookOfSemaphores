@@ -56,6 +56,11 @@ namespace BasicSyncPatternsTest
 
             Assert.That(this.classUnderTest.Dancers.Count, Is.EqualTo(howManyPairs * 2));
 
+            this.AssertThatDancersAreGroupedIntoPairs(howManyPairs);
+        }
+
+        private void AssertThatDancersAreGroupedIntoPairs(int howManyPairs)
+        {
             for (int i = 0; i < howManyPairs; i++)
             {
                 var pair = this.classUnderTest.Dancers.Skip(2 * i).Take(2);

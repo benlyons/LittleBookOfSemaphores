@@ -30,10 +30,19 @@ namespace BasicSyncPatternsTest
         {
             get
             {
+                // TODO: come up with a better set of test data and name the test data so it is clear
+                // why it exists.
                 yield return new TestCaseData(new[] { Add.Leader }, 0);
                 yield return new TestCaseData(new[] { Add.Leader, Add.Follower }, 1);
                 yield return new TestCaseData(new[] { Add.Leader, Add.Leader, Add.Follower }, 1);
                 yield return new TestCaseData(new[] { Add.Follower, Add.Leader, Add.Leader }, 1);
+                yield return new TestCaseData(new[] { Add.Follower, Add.Follower, Add.Leader, Add.Leader }, 2);
+                yield return new TestCaseData(
+                    new[] { Add.Leader, Add.Leader, Add.Leader, Add.Follower, Add.Follower, Add.Follower }, 3);
+                yield return new TestCaseData(
+                    new[] { Add.Leader, Add.Follower, Add.Follower, Add.Follower, Add.Follower, Add.Follower }, 1);
+                yield return new TestCaseData(
+                    new[] { Add.Follower, Add.Leader, Add.Leader, Add.Follower, Add.Follower, Add.Leader, Add.Leader, Add.Follower }, 4);
             }
         }
 
@@ -54,7 +63,10 @@ namespace BasicSyncPatternsTest
 
             this.JoinThreads();
 
-            Assert.That(this.classUnderTest.Dancers.Count, Is.EqualTo(howManyPairs * 2));
+            Assert.That(
+                this.classUnderTest.Dancers.Count,
+                Is.EqualTo(howManyPairs * 2),
+                message: $"Total number of dancers (expected {howManyPairs} pairs).");
 
             this.AssertThatDancersAreGroupedIntoPairs(howManyPairs);
         }

@@ -1,9 +1,9 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Threading;
-using static BasicSyncPatterns.Sec03_Rendezvous;
+using static CypressTree.BasicSyncPatterns.Sec03_Rendezvous;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test03_Rendezvous
     {

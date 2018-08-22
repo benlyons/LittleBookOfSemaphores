@@ -1,11 +1,11 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using DancerType = BasicSyncPatterns.Sec08_Queue.DancerType;
+using DancerType = CypressTree.BasicSyncPatterns.Sec08_Queue.DancerType;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test08_Queue
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace BasicSyncPatterns
+namespace CypressTree.BasicSyncPatterns
 {
     public class Sec07_ReusableBarrier
     {

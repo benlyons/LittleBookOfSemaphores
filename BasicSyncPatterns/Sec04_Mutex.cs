@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace BasicSyncPatterns
+namespace CypressTree.BasicSyncPatterns
 {
     public class Sec04_Mutex
     {

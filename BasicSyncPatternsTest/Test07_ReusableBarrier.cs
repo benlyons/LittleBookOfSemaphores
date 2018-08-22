@@ -1,11 +1,11 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using static BasicSyncPatterns.Sec07_ReusableBarrier;
+using static CypressTree.BasicSyncPatterns.Sec07_ReusableBarrier;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test07_ReusableBarrier
     {

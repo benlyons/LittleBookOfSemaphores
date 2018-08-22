@@ -1,9 +1,9 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test05_Multiplex
     {

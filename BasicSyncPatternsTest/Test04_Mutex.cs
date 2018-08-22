@@ -1,8 +1,8 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Threading;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test04_Mutex
     {

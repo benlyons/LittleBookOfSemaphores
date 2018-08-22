@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace BasicSyncPatterns
+namespace CypressTree.BasicSyncPatterns
 {
     public class Sec08_Queue
     {

@@ -1,11 +1,11 @@
-﻿using BasicSyncPatterns;
+﻿using CypressTree.BasicSyncPatterns;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using static BasicSyncPatterns.Sec06_Barrier;
+using static CypressTree.BasicSyncPatterns.Sec06_Barrier;
 
-namespace BasicSyncPatternsTest
+namespace CypressTree.BasicSyncPatternsTest
 {
     public class Test06_Barrier
     {
